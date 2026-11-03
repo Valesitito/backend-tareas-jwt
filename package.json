@@ -1,9 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "Backend Ingeneria de Software",
+  "description": "API REST de tareas con autenticacion JWT - Ingenieria de Software",
   "license": "ISC",
-  "author": "Jennifer Briceño",
+  "author": "Jorge Carlos Vales Martínez",
   "type": "commonjs",
   "main": "server.js",
   "scripts": {

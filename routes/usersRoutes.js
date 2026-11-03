@@ -4,7 +4,7 @@ const { crearUser, loginUser, datosUser } = require('../controllers/usersControl
 const { protect } = require('../middleware/authMiddleware.js')
 
 //endpoints publicos
-router.post('/register', crearUser)
+router.post('/', crearUser)
 router.post('/login', loginUser)
 
 //endpoint privado

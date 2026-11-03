@@ -35,9 +35,7 @@ const crearUser = asyncHandler(async (req, res) => {
         res.status(201).json({
             _id: user.id,
             nombre: user.nombre,
-            email: user.email,
-            password: user.password,
-            token: generarToken(user._id)
+            email: user.email
         })
     } else {
         res.status(400)
@@ -59,11 +57,10 @@ const loginUser = asyncHandler(async (req, res) => {
             _id: user.id,
             nombre: user.nombre,
             email: user.email,
-            password: user.password,
             token: generarToken(user.id)
         })
     } else {
-        res.status(403) // 403 significa que el usuario no tiene permisos para acceder a ese recurso
+        res.status(401) // 401 significa que no se pudo autenticar (correo o contraseña mal)
         throw new Error('Credenciales Incorrectas')
     }
 

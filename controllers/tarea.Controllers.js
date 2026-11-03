@@ -34,12 +34,18 @@ const updateTareas = asyncHandler(async (req, res) => {
     } 
     // verificamosque la tarea nos pertenece
     if(tarea.user.toString() !== req.user.id){
-        res.status(401)
+        res.status(403)
         throw new Error('Acceso denegado, no puedes modificar esta tarea')
-    } else {
-        const updatedTarea = await Tarea.findByIdAndUpdate(req.params.id, req.body, {new: true})
-        res.status(200).json(updatedTarea)
     }
+
+    if(!req.body.descripcion){
+        res.status(400)
+        throw new Error('Debes teclear una descripcion de la tarea')
+    }
+
+    // solo se cambia la descripcion, el dueño (user) no se toca aunque venga en el body
+    const updatedTarea = await Tarea.findByIdAndUpdate(req.params.id, {descripcion: req.body.descripcion}, {returnDocument: 'after'})
+    res.status(200).json(updatedTarea)
 
 })
 
@@ -53,12 +59,12 @@ const deleteTareas = asyncHandler(async (req, res) => {
     }
     
     if(tarea.user.toString() !== req.user.id){
-        res.status(401)
-        throw new Error('Acceso denegado, no puedes modificar esta tarea')
-    } else {
-        await Tarea.deleteOne(tarea)
-        res.status(200).json({id: req.params.id})
+        res.status(403)
+        throw new Error('Acceso denegado, no puedes eliminar esta tarea')
     }
+
+    await tarea.deleteOne()
+    res.status(200).json({id: req.params.id})
     
 })
 module.exports = {getTareas, createTareas, updateTareas, deleteTareas}
